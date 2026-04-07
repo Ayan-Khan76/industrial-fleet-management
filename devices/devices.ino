@@ -7,9 +7,9 @@
 #include <HTTPClient.h>
 
 
-const char* ssid        = "Ethernet15";
-const char* password    = "Fa@67890";
-const char* mqtt_server = "a2v0ya4tb7ssid-ats.iot.eu-north-1.amazonaws.com";
+const char* ssid        = "YOUR_SSID";
+const char* password    = "YOUR_PASSWORD";
+const char* mqtt_server = "YOUR_MQTT_SERVER";
 
 const int led_pin      = 2;
 int tempValue          = 25;

@@ -122,7 +122,6 @@ function App() {
 
   return (
     <div className="app">
-      {/* Header */}
       <header className="header">
         <div className="header-content">
           <div>
@@ -134,7 +133,7 @@ function App() {
           </button>
         </div>
 
-        {/* Device Selector - Auto-populated from DynamoDB */}
+        
         {!devicesLoading && availableDevices.length > 0 && (
           <div className="device-selector">
             <label htmlFor="device-dropdown">📱 Select Device:</label>
@@ -157,14 +156,14 @@ function App() {
           </div>
         )}
 
-        {/* Loading devices */}
+        
         {devicesLoading && (
           <div className="device-selector">
             <p className="loading-text">Loading devices...</p>
           </div>
         )}
 
-        {/* No devices found */}
+        
         {!devicesLoading && availableDevices.length === 0 && (
           <div className="device-selector">
             <p className="no-devices">
@@ -174,20 +173,16 @@ function App() {
         )}
       </header>
 
-      {/* Error Message */}
       {error && <div className="error-message">{error}</div>}
 
-      {/* Loading State */}
       {loading && !currentData && selectedDevice && (
         <div className="loading-container">
           <p>Loading data for {selectedDevice}...</p>
         </div>
       )}
 
-      {/* Main Content */}
       {currentData && selectedDevice && !loading && (
         <>
-          {/* Metrics Cards */}
           <div className="metrics-grid">
             {/* Temperature Card */}
             <div className="metric-card temperature-card">
@@ -253,7 +248,6 @@ function App() {
             </div>
           </div>
 
-          {/* Footer */}
           <footer className="footer">
             <p>
               Last update: {lastUpdate?.toLocaleTimeString()}
@@ -265,7 +259,6 @@ function App() {
         </>
       )}
 
-      {/* No device selected */}
       {!selectedDevice && availableDevices.length > 0 && (
         <div className="loading-container">
           <p>Please select a device from the dropdown above</p>

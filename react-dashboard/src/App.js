@@ -1,15 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import {
-  LineChart,
-  Line,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Tooltip,
-  Legend,
-  ResponsiveContainer,
-} from 'recharts';
 import './App.css';
 
 function App() {
@@ -261,49 +251,6 @@ function App() {
               </div>
               <p className="metric-label">minutes</p>
             </div>
-          </div>
-
-          {/* Chart Section */}
-          <div className="chart-container">
-            <h2>📈 Temperature & Humidity History</h2>
-            {chartData.length > 1 ? (
-              <ResponsiveContainer width="100%" height={300}>
-                <LineChart data={chartData}>
-                  <CartesianGrid strokeDasharray="3 3" />
-                  <XAxis dataKey="time" />
-                  <YAxis domain={[0, 100]} />
-                  <Tooltip
-                    contentStyle={{
-                      backgroundColor: '#333',
-                      border: 'none',
-                      borderRadius: '8px',
-                      color: '#fff',
-                    }}
-                  />
-                  <Legend />
-                  <Line
-                    type="monotone"
-                    dataKey="temperature"
-                    stroke="#e74c3c"
-                    strokeWidth={2}
-                    dot={{ fill: '#e74c3c', r: 4 }}
-                    activeDot={{ r: 6 }}
-                    name="Temperature (°C)"
-                  />
-                  <Line
-                    type="monotone"
-                    dataKey="humidity"
-                    stroke="#3498db"
-                    strokeWidth={2}
-                    dot={{ fill: '#3498db', r: 4 }}
-                    activeDot={{ r: 6 }}
-                    name="Humidity (%)"
-                  />
-                </LineChart>
-              </ResponsiveContainer>
-            ) : (
-              <p className="no-chart-data">Waiting for more data points...</p>
-            )}
           </div>
 
           {/* Footer */}

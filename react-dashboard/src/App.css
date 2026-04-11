@@ -3,7 +3,7 @@
   --primary-color: #667eea;
   --secondary-color: #764ba2;
   --accent-color: #f093fb;
-  --background: #f8f9ff;
+  --background: #527dff;
   --card-background: #ffffff;
   --text-primary: #2d3748;
   --text-secondary: #718096;
@@ -28,7 +28,7 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background-color: var(--background);
   min-height: 100vh;
   color: var(--text-primary);
 }

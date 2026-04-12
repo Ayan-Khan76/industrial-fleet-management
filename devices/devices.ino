@@ -5,15 +5,20 @@
 #include <PubSubClient.h>
 #include <ArduinoJson.h>
 #include <HTTPClient.h>
+#include <DHT.h>
+
 
 
 const char* ssid        = "YOUR_SSID";
 const char* password    = "YOUR_PASSWORD";
 const char* mqtt_server = "YOUR_MQTT_SERVER";
 
+
+#define DHTPIN 13     
+#define DHTTYPE DHT11
+
+DHT dht(DHTPIN, DHTTYPE);
 const int led_pin      = 2;
-int tempValue          = 25;
-int humidity           = 40;
 unsigned long lastTelemetryTime = 0;
 const unsigned long TELEMETRY_INTERVAL = 15000;
 
@@ -42,16 +47,22 @@ void setup_wifi() {
 void publishTelemetry() {
   if (!client.connected()) return;
 
-  tempValue = random(20, 35);
-  humidity  = random(30, 60);
+  float h = dht.readHumidity();
+  float t = dht.readTemperature(); 
+
+  if (isnan(h) || isnan(t)) {
+    Serial.println(F("Failed to read from DHT sensor!"));
+    return;
+  }
+
 
   JsonDocument doc;
   doc["device_id"]   = device_id;
   doc["uptime"]      = millis();
   doc["led"]         = digitalRead(led_pin) ? "ON" : "OFF";
   doc["rssi"]        = WiFi.RSSI();
-  doc["temperature"] = tempValue;
-  doc["humidity"]    = humidity;
+  doc["temperature"] = t;
+  doc["humidity"]    = h;
 
   char buffer[256];
   serializeJson(doc, buffer);
@@ -87,7 +98,7 @@ void callback(char* topic, byte* payload, unsigned int length) {
     if (strcmp(command, "get_temperature") == 0) {
       JsonDocument resp;
       resp["device_id"]   = device_id;
-      resp["temperature"] = tempValue;
+      resp["temperature"] = dht.readTemperature();
       char buf[100];
       serializeJson(resp, buf);
       bool ok = client.publish(topicTelemetry().c_str(), buf);
@@ -96,7 +107,7 @@ void callback(char* topic, byte* payload, unsigned int length) {
     else if (strcmp(command, "get_humidity") == 0){
       JsonDocument humidityResp;
       humidityResp["device_id"] = device_id;
-      humidityResp["humidity"] = humidity;
+      humidityResp["humidity"] = dht.readHumidity();;
       char buffer[100];
       serializeJson(humidityResp, buffer);
       bool ok = client.publish(topicTelemetry().c_str(), buffer);
@@ -135,6 +146,7 @@ void setup() {
   Serial.begin(115200);
   setup_wifi();
   pinMode(led_pin, OUTPUT);
+  dht.begin();
   Serial.print("Device MAC Address: ");
   Serial.println(device_id);
 
